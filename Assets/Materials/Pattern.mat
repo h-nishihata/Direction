@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Plane
-  m_Shader: {fileID: 4800000, guid: 3f5639f0581c94db5b945222ba632d85, type: 3}
+  m_Name: Pattern
+  m_Shader: {fileID: 4800000, guid: bda7eec016239420d8221c69de892bc3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -60,6 +60,8 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Fill: 0.349
+    - _Frequency: 348.5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
