@@ -1,6 +1,6 @@
 ﻿// https://halisavakis.com/my-take-on-shaders-random-stripes-mask/
 
-Shader "Custom/RandomStripes"
+Shader "Custom/Mask"
 {
     Properties
     {
@@ -52,15 +52,7 @@ Shader "Custom/RandomStripes"
             fixed4 frag (v2f i) : SV_Target
             {
                 float stripes = 1 - step(_Fill, random(floor(i.uv.y * _Frequency)));
-                fixed4 color = fixed4(0.9, 0.9, 0.9, 1);
-                float r,g,b = 0;
-                if(stripes < 1)
-                {
-                    r = 0.8;
-                    g = 0.8;
-                    b = 0.5;
-                }
-                return float4(stripes, stripes, stripes, 1)/* color*/;
+                return float4(stripes, stripes, stripes, 1);
             }
             ENDCG
         }
