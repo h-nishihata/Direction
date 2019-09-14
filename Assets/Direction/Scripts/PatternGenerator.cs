@@ -25,6 +25,8 @@ public class PatternGenerator : MonoBehaviour
 
             picker.CurrentColor = color;
         });
+
+        isLineColor = true;
     }
 
     void Update()
