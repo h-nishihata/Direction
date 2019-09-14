@@ -23,15 +23,21 @@ public class ValueSetter : MonoBehaviour
         picker.CurrentColor = lineColor;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < mats.Length; i++)
+        // パターン作成.
+        mats[0].SetFloat("_Frequency", sliders[0].value);
+        mats[0].SetFloat("_Fill", sliders[1].value);
+        mats[0].SetColor("_LineColor", lineColor);
+        mats[0].SetColor("_BGColor", Color.cyan);
+
+        // マスク作成.
+        for (int i = 1; i < mats.Length; i++)
         {
-            mats[i].SetFloat("_Frequency", sliders[0 + i * 2].value);
-            mats[i].SetFloat("_Fill", sliders[1 + i * 2].value);
+            mats[i].SetFloat("_Frequency", sliders[2].value);
+            mats[i].SetFloat("_Fill", sliders[3].value);
             mats[i].SetColor("_LineColor", lineColor);
-            //mats[i].SetFloat("_BGColor", shininess);
+            mats[i].SetColor("_BGColor", Color.cyan);
         }
     }
 }

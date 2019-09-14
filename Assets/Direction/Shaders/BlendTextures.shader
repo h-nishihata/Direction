@@ -55,7 +55,7 @@
                 fixed4 c2 = tex2D(_SubTex, i.uv);
                 fixed4 p  = tex2D(_MaskTex, i.uv);
 
-                fixed4 col = lerp(c1, c2, p);
+                fixed4 col = lerp(c2, c1, p);
 
                 // apply fog
                 //UNITY_APPLY_FOG(i.fogCoord, col);
