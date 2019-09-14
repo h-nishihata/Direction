@@ -7,6 +7,8 @@ Shader "Custom/RandomStripes"
         _MainTex ("Texture", 2D) = "white" {}
         _Frequency ("Frequency", float) = 20
         _Fill ("Fill", Range(0, 1)) = 0.8
+        _LineColor ("LineColor", Color) = (0, 0, 0, 1)
+        _BGColor ("BGColor", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -44,6 +46,8 @@ Shader "Custom/RandomStripes"
             sampler2D _MainTex;
             float _Frequency;
             float _Fill;
+            fixed4 _LineColor;
+            fixed4 _BGColor;
  
             float random (float2 input) { 
                 return frac(sin(dot(input, float2(12.9898, 78.233))) * 43758.5453123);
@@ -52,15 +56,15 @@ Shader "Custom/RandomStripes"
             fixed4 frag (v2f i) : SV_Target
             {
                 float stripes = 1 - step(_Fill, random(floor(i.uv.y * _Frequency)));
-                fixed4 color = fixed4(0.9, 0.9, 0.9, 1);
+                //fixed4 color = fixed4(0.9, 0.9, 0.9, 1);
                 float r,g,b = 0;
                 if(stripes < 1)
                 {
-                    r = 0.8;
-                    g = 0.8;
-                    b = 0.5;
+                    r = _LineColor.r;
+                    g = _LineColor.g;
+                    b = _LineColor.b;
                 }
-                return float4(stripes, stripes, stripes, 1)/* color*/;
+                return float4(stripes + r, stripes + g, stripes + b, 1);
             }
             ENDCG
         }
