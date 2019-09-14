@@ -24,8 +24,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Fill: 0.384
-    - _Frequency: 147
+    - _Fill: 0.2
+    - _Frequency: 256
     m_Colors:
-    - _BGColor: {r: 1, g: 1, b: 1, a: 1}
-    - _LineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BGColor: {r: 0.7635342, g: 0.7635342, b: 0.7635342, a: 1}
+    - _LineColor: {r: 0.73126143, g: 0.74365866, b: 0.6374084, a: 1}

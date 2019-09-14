@@ -1,26 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
-public class ValueSetter : MonoBehaviour
+public class PatternGenerator : MonoBehaviour
 {
     public Material[] mats;
     public Slider[] sliders;
 
     public ColorPicker picker;
+    public Button[] buttons;
 
     public Color lineColor = Color.black;
-
+    public Color bgColor = Color.white;
+    public bool isLineColor;
 
     void Start()
     {
         picker.onValueChanged.AddListener(color =>
         {
-            lineColor = color;
+            if (isLineColor)
+                lineColor = color;
+            else
+                bgColor = color;
+
+            picker.CurrentColor = color;
         });
-        picker.CurrentColor = lineColor;
     }
 
     void Update()
@@ -29,7 +33,7 @@ public class ValueSetter : MonoBehaviour
         mats[0].SetFloat("_Frequency", sliders[0].value);
         mats[0].SetFloat("_Fill", sliders[1].value);
         mats[0].SetColor("_LineColor", lineColor);
-        mats[0].SetColor("_BGColor", Color.cyan);
+        mats[0].SetColor("_BGColor", bgColor);
 
         // マスク作成.
         for (int i = 1; i < mats.Length; i++)
@@ -37,7 +41,14 @@ public class ValueSetter : MonoBehaviour
             mats[i].SetFloat("_Frequency", sliders[2].value);
             mats[i].SetFloat("_Fill", sliders[3].value);
             mats[i].SetColor("_LineColor", lineColor);
-            mats[i].SetColor("_BGColor", Color.cyan);
+            mats[i].SetColor("_BGColor", bgColor);
         }
+    }
+
+    public void switchLineAndBG(bool lineButtonPressed)
+    {
+        buttons[0].interactable = !lineButtonPressed;
+        buttons[1].interactable = lineButtonPressed;
+        isLineColor = lineButtonPressed;
     }
 }
