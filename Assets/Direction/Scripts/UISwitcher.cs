@@ -4,15 +4,38 @@ using UnityEngine;
 public class UISwitcher : MonoBehaviour
 {
     public Transform UIPanel;
-    private bool isEnabled;
+    public BoxCollider collider;
+    private Vector3 colCenterHalf = new Vector3(-2.5f, 0f, 0f);
+    private Vector3 colSizeHalf = new Vector3(5f, 3f, 10f);
+    private Vector3 colSizeFull = new Vector3(10f, 3f, 10f);
+    private bool isEnabled = true;
     private bool shutterPressed;
     private float waitForScreenshot;
 
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetMouseButtonDown(0))
         {
-            switchUIPanel(isEnabled = !isEnabled);
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                //Debug.Log("hit");
+                switchUIPanel(isEnabled = !isEnabled);
+                if(isEnabled)
+                {
+                    collider.center = colCenterHalf;
+                    collider.size = colSizeHalf;
+                }
+                else if(!isEnabled)
+                {
+                    collider.center = Vector3.zero;
+                    collider.size = colSizeFull;
+                }
+            }
         }
 
         if (shutterPressed)
