@@ -25,5 +25,5 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Fill: 0.8
-    - _Frequency: 196.90479
+    - _Frequency: 80
     m_Colors: []

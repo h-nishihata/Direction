@@ -7,24 +7,17 @@ public class UISwitcher : MonoBehaviour
     private bool UIActive = true;
     private bool shutterPressed;
     private float waitForScreenshot;
+    public Texture2D screenShot;
 
+    private void Start()
+    {
+        screenShot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+    }
 
     private void Update()
     {
         if (!UIActive && Input.GetMouseButtonDown(0))
             switchUIPanel(true);
-
-        if (shutterPressed)
-        {
-            if (waitForScreenshot < 1.0f)
-                waitForScreenshot += Time.deltaTime;
-            else
-            {
-                shutterPressed = false;
-                waitForScreenshot = 0f;
-                switchUIPanel(true);
-            }
-        }
     }
 
     public void switchUIPanel(bool isActive)
@@ -39,12 +32,28 @@ public class UISwitcher : MonoBehaviour
             return;
 
         switchUIPanel(false);
-
-        // 現在時刻からファイル名を決定
-        var filename = System.DateTime.Now.ToString("/yyyyMMdd_HHmmss") + ".png";
-        // キャプチャを撮る
-        ScreenCapture.CaptureScreenshot(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + filename);
-
         shutterPressed = true;
+    }
+
+    private void OnPostRender()
+    {
+        if (shutterPressed)
+        {
+            if (waitForScreenshot < 1.0f)
+                waitForScreenshot += Time.deltaTime;
+            else
+            {
+                // 現在時刻からファイル名を決定
+                var fileName = System.DateTime.Now.ToString("/yyyyMMdd_HHmmss") + ".png";
+                // キャプチャを撮る
+                screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+                screenShot.Apply();
+                NativeGallery.SaveImageToGallery(screenShot, "album", fileName);
+
+                shutterPressed = false;
+                waitForScreenshot = 0f;
+                switchUIPanel(true);
+            }
+        }
     }
 }
