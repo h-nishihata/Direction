@@ -6,6 +6,7 @@ public class UISwitcher : MonoBehaviour
     public Transform UIPanel;
     private bool UIActive = true;
     private bool shutterPressed;
+    private bool flashStarted;
     private float waitForScreenshot = 1.0f;
     public Renderer flash;
     private Material flashMaterial;
@@ -25,26 +26,22 @@ public class UISwitcher : MonoBehaviour
         if (shutterPressed)
         {
             StartCoroutine(TakeScreenshotAndSave());
+            shutterPressed = false;
+        }
 
+        if (flashStarted)
+        {
             if (waitForScreenshot > 0.0f)
             {
-                waitForScreenshot -= 0.1f;
+                waitForScreenshot -= 0.02f;
                 flashMaterial.SetFloat("_Blend", waitForScreenshot);
             }
             else
             {
-                // 現在時刻からファイル名を決定
-                //var fileName = System.DateTime.Now.ToString("/yyyyMMdd_HHmmss") + ".png";
-                // キャプチャを撮る
-                //screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
-                //screenShot.Apply();
-                //NativeGallery.SaveImageToGallery(screenShot, "album", fileName);
-
-                shutterPressed = false;
+                flashStarted = false;
                 waitForScreenshot = 1f;
                 switchUIPanel(true);
             }
-
         }
     }
 
@@ -67,6 +64,7 @@ public class UISwitcher : MonoBehaviour
 
         switchUIPanel(false);
         shutterPressed = true;
+        flashStarted = true;
         flashMaterial.SetFloat("_Blend", waitForScreenshot);
     }
 
@@ -82,8 +80,8 @@ public class UISwitcher : MonoBehaviour
         screenShot.Apply();
 
         // 現在時刻からファイル名を決定
-        var fileName = System.DateTime.Now.ToString("/yyyyMMdd_HHmmss") + ".png";
-
+        var fileName = System.DateTime.Now.ToString("yyMMdd_HHmmss") + ".png";
+        Debug.Log(fileName);
         // Save the screenshot to Gallery/Photos
         Debug.Log("Permission result: " + NativeGallery.SaveImageToGallery(screenShot, "Direction", fileName));
 
