@@ -10,10 +10,11 @@ public class UISwitcher : MonoBehaviour
     private float waitForScreenshot = 1.0f;
     public Renderer flash;
     private Material flashMaterial;
-
+    public Texture2D screenShot;
 
     private void Start()
     {
+        screenShot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         flashMaterial = flash.material;
     }
 
@@ -64,8 +65,6 @@ public class UISwitcher : MonoBehaviour
 
         switchUIPanel(false);
         shutterPressed = true;
-        flashStarted = true;
-        flashMaterial.SetFloat("_Blend", waitForScreenshot);
     }
 
     /// <summary>
@@ -75,17 +74,18 @@ public class UISwitcher : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        Texture2D screenShot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
         screenShot.Apply();
 
         // 現在時刻からファイル名を決定
-        var fileName = System.DateTime.Now.ToString("yyMMdd_HHmmss") + ".png";
-        Debug.Log(fileName);
+        //var fileName = System.DateTime.Now.ToString("/yyMMdd_HHmmss") + ".png";
+        //Debug.Log(fileName);
         // Save the screenshot to Gallery/Photos
-        Debug.Log("Permission result: " + NativeGallery.SaveImageToGallery(screenShot, "Direction", fileName));
+        Debug.Log("Permission result: " + NativeGallery.SaveImageToGallery(screenShot, "Direction", "Image.png"));
 
+        flashStarted = true;
+        flashMaterial.SetFloat("_Blend", waitForScreenshot);
         // To avoid memory leaks
-        Destroy(screenShot);
+        //Destroy(screenShot);
     }
 }
